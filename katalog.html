@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Usta Avto Servis</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#0b0b0c;--card:#17171a;--line:#2a2a2f;--tx:#f4f1e8;--mu:#9b9a93;--g1:#f0d27a;--g2:#c79a22}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,Roboto,Arial,sans-serif;padding-bottom:100px}
+header{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid var(--line)}
+.logo{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1a1405;display:grid;place-items:center;font-weight:800;font-size:1.3rem}
+h1{font-size:1.15rem;margin:0}header small{color:var(--mu)}
+h2{margin:20px 16px 12px;font-size:1.3rem;color:var(--g1)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.card.on{border-color:var(--g2)}
+.em{font-size:2.4rem}.card b{font-size:1rem}.card p{margin:0;color:var(--mu);font-size:.85rem;flex:1}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pr{color:var(--g1);font-weight:700;font-size:.85rem}
+.add{width:38px;height:38px;flex:none;border-radius:12px;border:0;font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1a1405}
+.on .add{background:#2a2a2f;color:var(--g1)}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.go{width:100%;padding:16px;border:0;border-radius:16px;font:800 1rem system-ui,Arial,sans-serif;background:linear-gradient(135deg,var(--g1),var(--g2));color:#1a1405}
+.go:disabled{opacity:.4}
+form{padding:0 16px}
+label{display:block;margin:14px 0 6px;color:var(--mu);font-size:.9rem}
+input,textarea{width:100%;padding:14px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--tx);font:inherit}
+.sel{margin:0 16px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);color:var(--mu);font-size:.95rem}
+.back{background:none;border:0;color:var(--g1);font:700 1rem system-ui,Arial,sans-serif;padding:16px}
+#err{color:#ff8a80;padding:8px 16px;min-height:1.5em}
+[hidden]{display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">U</div>
+  <div><h1>Usta Avto Servis</h1><small>⏰ 08:00 – 19:00 · Yakshanba dam olish</small></div>
+</header>
+
+<section id="katalog">
+  <h2>🔧 Xizmatlar</h2>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="forma" hidden>
+  <button class="back" id="orqaga" type="button">← Xizmatlarga qaytish</button>
+  <div class="sel" id="tanlangan"></div>
+  <form id="f" onsubmit="return false">
+    <label for="ism">Ismingiz</label><input id="ism" autocomplete="name">
+    <label for="tel">Telefon raqamingiz</label><input id="tel" type="tel" placeholder="+998 90 123 45 67" autocomplete="tel">
+    <label for="mashina">Mashina markasi va yili</label><input id="mashina" placeholder="Chevrolet Cobalt 2019">
+    <label for="vaqt">Qulay vaqt</label><input id="vaqt" placeholder="ertaga soat 15:00">
+    <label for="izoh">Izoh (ixtiyoriy)</label><textarea id="izoh" rows="2"></textarea>
+  </form>
+  <div id="err"></div>
+</section>
+
+<div class="bar"><button class="go" id="go" type="button" disabled>Xizmat tanlang</button></div>
+
+<script>
+const tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+// Xizmatlar: botdagi roʻyxat bilan bir xil boʻlsin
+const X = [
+  ["🖥", "Kompyuter diagnostikasi", "Mashina kompyuteri orqali nosozliklarni aniqlaymiz.", "100 000 soʻmdan"],
+  ["🛢", "Moy va filtr almashtirish", "Dvigatel moyi va filtrlarini tez almashtiramiz.", "50 000 soʻmdan"],
+  ["🛑", "Tormoz tizimi", "Kolodka, disk va tormoz suyuqligi.", "120 000 soʻmdan"],
+  ["❄️", "Konditsioner", "Tekshiruv, tozalash va gaz toʻldirish.", "150 000 soʻmdan"],
+  ["⚙️", "Yurish qismi va dvigatel", "Murakkab ta'mir. Koʻrib, aniq narx aytamiz.", "koʻrilgach aytiladi"]
+];
+const sel = new Set();
+const $ = id => document.getElementById(id);
+let bosqich = "katalog";
+
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+
+X.forEach((x, i) => {
+  const c = el("div", "card");
+  c.append(el("div", "em", x[0]), el("b", "", x[1]), el("p", "", x[2]));
+  const r = el("div", "row");
+  const b = el("button", "add", "+"); b.type = "button";
+  r.append(el("span", "pr", x[3]), b);
+  c.append(r);
+  b.onclick = () => {
+    if (sel.has(i)) sel.delete(i); else sel.add(i);
+    c.classList.toggle("on", sel.has(i));
+    b.textContent = sel.has(i) ? "✓" : "+";
+    yangila();
+  };
+  $("grid").append(c);
+});
+
+function yangila() {
+  const g = $("go");
+  if (bosqich === "katalog") {
+    g.disabled = sel.size === 0;
+    g.textContent = sel.size ? "Davom etish (" + sel.size + ")" : "Xizmat tanlang";
+  } else { g.disabled = false; g.textContent = "Navbat olish"; }
+}
+
+function korsat(b) {
+  bosqich = b;
+  $("katalog").hidden = b !== "katalog";
+  $("forma").hidden = b !== "forma";
+  if (b === "forma") $("tanlangan").textContent = "Tanlangan: " + [...sel].map(i => X[i][1]).join(", ");
+  window.scrollTo(0, 0);
+  yangila();
+}
+$("orqaga").onclick = () => korsat("katalog");
+
+$("go").onclick = () => {
+  if (bosqich === "katalog") { korsat("forma"); return; }
+  const d = {
+    xizmatlar: [...sel].map(i => X[i][1]),
+    ism: $("ism").value.trim(), tel: $("tel").value.trim(),
+    mashina: $("mashina").value.trim(), vaqt: $("vaqt").value.trim(), izoh: $("izoh").value.trim()
+  };
+  const raqam = d.tel.replace(/\D/g, "");
+  let xato = "";
+  if (!d.ism) xato = "Ismingizni yozing.";
+  else if (raqam.length < 9 || raqam.length > 13) xato = "Telefon raqami notoʻgʻri.";
+  else if (!d.mashina) xato = "Mashina markasini yozing.";
+  else if (!d.vaqt) xato = "Qulay vaqtni yozing.";
+  $("err").textContent = xato;
+  if (xato) return;
+  if (tg) tg.sendData(JSON.stringify(d));
+  else alert("Telegramda ochilganda navbat yuboriladi:\n" + JSON.stringify(d, null, 1));
+};
+yangila();
+</script>
+</body>
+</html>
