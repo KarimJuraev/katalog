@@ -1,0 +1,224 @@
+<!doctype html><html lang="uz"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Namuna Pizza</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#0b0b0c;--card:#161618;--line:#2a2a2e;--tx:#f4efe3;--mu:#9a958a;--g1:#f3d77a;--g2:#c79a1f;--gold:linear-gradient(135deg,var(--g1),var(--g2));box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:150px}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:84px}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.top{position:sticky;top:0;z-index:5;background:rgba(11,11,12,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:10px;padding:12px 14px 8px}
+.logo{width:40px;height:40px;border-radius:50%;background:var(--gold);color:#1a1405;font-weight:800;display:grid;place-items:center;font-size:18px}
+.hd b{font-size:17px;letter-spacing:.3px}.hd small{display:block;color:var(--mu);font-size:12px}
+.seg{margin-left:auto;display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{padding:7px 10px;border-radius:9px;font-size:13px;color:var(--mu)}.seg .on{background:var(--gold);color:#1a1405;font-weight:700}
+.sr{padding:0 14px 8px}.sr input{width:100%;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:10px 12px;font:inherit}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 14px 10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{white-space:nowrap;padding:7px 13px;border-radius:20px;background:var(--card);border:1px solid var(--line);font-size:13px;color:var(--mu)}
+.chips .on{background:var(--gold);color:#1a1405;border-color:transparent;font-weight:700}
+h2{margin:18px 14px 10px;font-size:19px}h2 span{color:var(--g1)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;text-align:left;position:relative}
+.art{aspect-ratio:4/3;display:grid;place-items:center;font-size:46px;background:radial-gradient(circle at 50% 40%,#3a3017,#161618 75%)}
+.art img{width:100%;height:100%;object-fit:cover}
+.tag{position:absolute;top:8px;left:8px;background:var(--gold);color:#1a1405;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px}
+.bd{padding:9px 10px 11px;display:flex;flex-direction:column;gap:3px;flex:1}.bd b{font-size:14px}
+.bd p{margin:0;color:var(--mu);font-size:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.pr{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-weight:700;color:var(--g1);font-size:13px}
+.add{width:32px;height:32px;border-radius:10px;background:var(--gold);color:#1a1405;font-size:20px;font-weight:700;display:grid;place-items:center}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:rgba(15,15,16,.97);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));z-index:6}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--mu);position:relative}
+nav i{font-style:normal;font-size:21px;filter:grayscale(1)}nav .on{color:var(--g1)}nav .on i{filter:none}
+.bg{position:absolute;top:-3px;right:24%;background:var(--gold);color:#1a1405;border-radius:9px;font-size:10px;font-weight:800;padding:1px 6px}
+.pg{padding:14px}.row{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:8px}
+.row .art{width:56px;aspect-ratio:1;border-radius:12px;font-size:26px;flex:none}.row>div:nth-child(2){flex:1;min-width:0}.row b{display:block;font-size:14px}.row small{color:var(--mu)}
+.q{display:flex;align-items:center;gap:10px}.q button{width:30px;height:30px;border-radius:9px;background:#26262a;font-size:17px}.q b{min-width:18px;text-align:center}
+.sum{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin:12px 0}.sum div{display:flex;justify-content:space-between;padding:3px 0;color:var(--mu)}.sum .t{color:var(--tx);font-weight:800;font-size:17px;border-top:1px solid var(--line);margin-top:6px;padding-top:9px}.sum .t span{color:var(--g1)}
+.btn{width:100%;padding:14px;border-radius:14px;background:var(--gold);color:#1a1405;font-weight:800;font-size:16px}.btn:disabled{opacity:.4}
+.empty{text-align:center;color:var(--mu);padding:70px 20px}.empty i{font-style:normal;font-size:54px;display:block;margin-bottom:8px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:9;display:none;align-items:flex-end}.ov.on{display:flex}
+.sh{background:#121214;border-radius:24px 24px 0 0;border-top:1px solid var(--line);width:100%;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:88%;overflow:auto}
+.sh .art{border-radius:16px;margin-bottom:12px;aspect-ratio:16/9;font-size:64px}
+.sz{display:flex;gap:8px;margin:12px 0}.sz button{flex:1;padding:10px 4px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:13px}.sz .on{border-color:var(--g1);color:var(--g1);font-weight:700}
+.act{display:flex;gap:12px;align-items:center;margin-top:14px}.act .btn{flex:1}
+.set{display:flex;justify-content:space-between;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:8px}.set span{color:var(--mu)}
+.fl{display:block;margin:10px 0 4px;color:var(--mu);font-size:13px}#sh input{width:100%;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:12px;font:inherit}
+.ok{text-align:center;padding:10px 0}.ok i{font-style:normal;font-size:54px}
+</style></head><body>
+<div class="top" id="top"><div class="hd"><div class="logo">N</div><div><b>Namuna Pizza</b><small>⏰ 10:00 – 03:00</small></div>
+<div class="seg" id="seg"><button data-m="delivery" class="on">🚗 Yetkazish</button><button data-m="pickup">🙋 Olib ketish</button></div></div>
+<div id="tools"><div class="sr"><input id="q" placeholder="🔍 Qidirish..."></div><div class="chips" id="chips"></div></div></div>
+<main id="main"></main>
+<nav id="nav"><button data-t="menu" class="on"><i>🍽</i>Menyu</button><button data-t="cart"><i>🛒</i>Savat<span class="bg" id="bg" hidden></span></button><button data-t="orders"><i>📦</i>Buyurtmalar</button><button data-t="set"><i>⚙️</i>Sozlamalar</button></nav>
+<div class="ov" id="ov"><div class="sh" id="sh"></div></div>
+<script>
+const tgw=window.Telegram&&window.Telegram.WebApp;
+const TG_USER=(tgw&&tgw.initDataUnsafe&&tgw.initDataUnsafe.user)||{};
+const TEL="+998 90 123 45 67";
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=s=>document.querySelector(s),R=x=>Math.round(x/1000)*1000;
+const fmt=n=>Math.round(n).toLocaleString('en').replace(/,/g,' ')+" so'm";
+const CATS=[['sets','🍱','Setlar'],['pizza','🍕','Pitsa'],['burger','🍔','Burgerlar'],['lavash','🌯','Lavash va pide'],['snacks','🍟','Sneklar'],['sauces','🧂','Souslar'],['salads','🥗','Salatlar'],['drinks','🥤','Ichimliklar'],['coffee','☕','Kofe va choy'],['desserts','🍰','Shirinliklar']];
+const RAW={
+sets:`Klassik set*|115|3 ta pitsa 25 sm: Margarita, Pepperoni, To'rt pishloq
+Juft set|98|2 ta pitsa 30 sm + 1.5L ichimlik
+Oilaviy set|155|3 ta pitsa 30 sm + 1.5L ichimlik
+Go'shtli set|185|Go'shtli, BBQ va Mol go'shtli pitsa 30 sm
+Do'stlar seti|210|4 ta pitsa 25 sm + fri + 2 ichimlik
+Bolalar seti|85|Mini pitsa, nuggets, sok`,
+pizza:`Margarita|48|Pomidor sousi, mozzarella, rayhon
+Pepperoni*|54|Mozzarella va pepperoni kolbasa
+Vegetarian|50|Qo'ziqorin, qalampir, zaytun
+Qo'ziqorinli|56|Shampinon, ukrop, mozzarella
+Tovuqli|58|Tovuq filesi, shampinon, pomidor
+Ovchi|62|Achchiq ovchi kolbasalari, qo'ziqorin
+Kombo|64|Oq sous, kolbasa, indeyka, zaytun
+Go'shtli|72|Mol va tovuq go'shti, qalampir
+Ikki pepperoni|60|Ikki barobar pepperoni
+Mol go'shtli|70|Mol go'shti, oq sous, qalampir
+BBQ|66|BBQ sousi, tovuq, qizil piyoz
+To'rt pishloq|62|Mozzarella, chedder, parmezan, ko'k pishloq
+Gavayya|55|Tovuq, ananas, mozzarella
+Achchiq*|57|Chili, pepperoni, jalapeno
+Dengiz mahsulotli|78|Qisqichbaqa, midiya, kalmar
+Meksika|61|Qiyma, loviya, jalapeno
+Karbonara|63|Qaymoqli sous, bekon, parmezan
+Sosiskali|52|Sosiska, pomidor, mozzarella
+Tuna|68|Orkinos, zaytun, qizil piyoz
+Pesto|64|Pesto sousi, tovuq, cherri`,
+burger:`Klassik burger*|32|Mol go'shtli kotlet, salat, sous
+Chizburger|35|Kotlet, chedder, tuzlangan bodring
+Dubl burger|48|Ikki kotlet, ikki qavat pishloq
+Tovuqli burger|33|Qarsildoq tovuq, salat, sous
+Achchiq burger|36|Jalapeno, achchiq sous, kotlet
+Burger kombo|52|Burger + fri + 0.5L ichimlik`,
+lavash:`Tovuqli lavash|30|Lavash, tovuq, pomidor, sous
+Mol go'shtli lavash|34|Lavash, mol go'shti, sabzavot
+Vegetarian lavash|26|Qo'ziqorin, pishloq, sabzavot
+Go'shtli pide|40|Issiq pide, mol go'shti, pishloq
+Pishloqli pide|33|Issiq pide, mozzarella
+Lavash kombo*|70|2 ta tovuqli lavash + ichimlik
+Donar|36|Donar go'shti, sabzavot, sous
+Mini lavash|22|Kichik tovuqli lavash`,
+snacks:`Kartoshka fri|17|Qarsildoq kartoshka
+Kartoshka dolkalari|19|Ziravorli dolkalar
+Qanotchalar (6)|36|Sousda qovurilgan qanotchalar
+Nuggets (8)|30|Qarsildoq tovuq nuggets
+Pishloqli tayoqchalar|32|Ichi erigan pishloq
+Piyoz halqalari|22|Qarsildoq halqalar
+Fri kombo|45|Fri, nuggets, 2 ta sous
+Pishloqli sharchalar|28|Qovurilgan pishloq sharchalari`,
+sauces:`Ketchup|3|
+Pishloqli sous|4|
+Sezar sous|4|
+Sarimsoqli sous|4|
+BBQ sous|4|
+Achchiq sous|4|
+Qaymoqli sous|4|
+Chili sous|4|`,
+salads:`Sezar salati|30|Tovuq, parmezan, suxari, sous
+Grek salati|28|Pomidor, bodring, zaytun, feta
+Vitamin salati|24|Yangi sabzavotlar
+Tovuqli salat|29|Tovuq, qo'ziqorin, pishloq
+Krabli salat|27|Krab tayoqchalari, makkajo'xori
+Qarsildoq salat|26|Karam, sabzi, olma`,
+drinks:`Cola|10|Sovuq gazli ichimlik|d
+Apelsinli gazli|10|Sovuq gazli ichimlik|d
+Limonli gazli|10|Sovuq gazli ichimlik|d
+Qulupnayli gazli|10|Sovuq gazli ichimlik|d
+Sok (apelsin)|17|1.0L
+Sok (olma)|17|1.0L
+Sok (olcha)|17|1.0L
+Muzli choy|9|0.5L
+Mors|12|Uyda tayyorlangan, 0.5L
+Limonad|14|Yangi limonli, 0.5L
+Mineral suv|6|0.5L
+Gazsiz suv|5|0.5L`,
+coffee:`Espresso|12|
+Americano|14|
+Kapuchino|18|
+Latte|19|
+Moka|20|
+Qora choy|8|
+Yashil choy|8|
+Issiq shokolad|20|`,
+desserts:`Shokoladli maffin|18|Yumshoq maffin
+Karamelli donat|17|Glazurli donat
+Malinali donat|17|Glazurli donat
+Chizkeyk|28|Klassik chizkeyk
+Tiramisu|30|Italyan deserti
+Medovik|25|Asalli tort
+Napoleon|26|Qatlamli krem torti
+Brauni|22|Shokoladli brauni`};
+let P=[],id=0;
+for(const [c] of CATS)for(const ln of RAW[c].split('\n')){let [n,p,d,f]=ln.split('|'),hit=n.endsWith('*');n=n.replace('*','');p=+p*1000;
+ let s=null;if(c==='pizza')s=[['25 sm',R(p*.8)],['30 sm',p],['35 sm',R(p*1.3)]];if(f==='d')s=[['0.5L',p],['1.0L',R(p*1.5)],['1.5L',R(p*2.1)]];
+ P.push({id:++id,cat:c,n,d:d||'',p:s?s[0][1]:p,s,hit,img:''})}
+const S={m:'delivery',tab:'menu',cart:{},orders:[],q:''};
+try{S.cart=JSON.parse(localStorage.getItem('c')||'{}')}catch(e){}
+try{S.orders=JSON.parse(localStorage.getItem('o')||'[]')}catch(e){}
+const save=()=>{try{localStorage.setItem('c',JSON.stringify(S.cart))}catch(e){}};
+const icon=c=>CATS.find(x=>x[0]===c)[1];
+const art=p=>`<div class="art">${p.img?`<img src="${p.img}" alt="">`:icon(p.cat)}</div>`;
+function item(k){const [pid,si]=k.split('|'),p=P.find(x=>x.id==pid);return{p,si:+si,price:p.s?p.s[+si][1]:p.p,name:p.n+(p.s?` (${p.s[+si][0]})`:'')}}
+function totals(){let sub=0,cnt=0;for(const k in S.cart){const i=item(k);sub+=i.price*S.cart[k];cnt+=S.cart[k]}
+ const fee=S.m==='delivery'&&sub<400000?10000:0;return{sub,cnt,fee,tot:sub+fee}}
+function card(p){return`<button class="card" data-p="${p.id}">${p.hit?'<span class="tag">🔥 Hit</span>':''}${art(p)}<div class="bd"><b>${p.n}</b><p>${p.d}</p><div class="pr"><span>${p.s?'dan ':''}${fmt(p.p)}</span><span class="add">+</span></div></div></button>`}
+function menu(){const q=S.q.toLowerCase();let h='';
+ for(const [c,e,t] of CATS){const l=P.filter(p=>p.cat===c&&(!q||p.n.toLowerCase().includes(q)));if(l.length)h+=`<h2 id="s-${c}">${e} <span>${t}</span></h2><div class="grid">${l.map(card).join('')}</div>`}
+ $('#main').innerHTML=h||'<div class="empty"><i>🔍</i>Hech narsa topilmadi</div>'}
+function cart(){const k=Object.keys(S.cart),T=totals();
+ if(!k.length){$('#main').innerHTML='<div class="empty"><i>🛒</i>Savat bo\'sh<br>Menyudan mahsulot tanlang</div>';return}
+ $('#main').innerHTML=`<div class="pg"><h2 style="margin:0 0 12px">🛒 Savat <span>(${T.cnt})</span></h2>`+k.map(x=>{const i=item(x);return`<div class="row">${art(i.p)}<div><b>${i.name}</b><small>${fmt(i.price*S.cart[x])}</small></div><div class="q"><button data-d="-1" data-k="${x}">−</button><b>${S.cart[x]}</b><button data-d="1" data-k="${x}">+</button></div></div>`}).join('')+
+ `<div class="sum"><div><span>Mahsulotlar</span><span>${fmt(T.sub)}</span></div>${S.m==='delivery'?`<div><span>🚗 Yetkazib berish</span><span>${T.fee?fmt(T.fee):'bepul'}</span></div>`:''}<div class="t"><span style="color:var(--tx)">Jami</span><span>${fmt(T.tot)}</span></div></div>
+ <button class="btn" id="go" ${T.sub<40000?'disabled':''}>${T.sub<40000?'Minimal buyurtma 40 000 so\'m':'Buyurtma berish'}</button></div>`}
+function orders(){$('#main').innerHTML=S.orders.length?`<div class="pg"><h2 style="margin:0 0 12px">📦 Buyurtmalar</h2>`+S.orders.map(o=>`<div class="row"><div class="art">🧾</div><div><b>${o.st}</b><small>${o.l}</small></div><b style="color:var(--g1)">${fmt(o.t)}</b></div>`).join('')+'</div>':'<div class="empty"><i>📦</i>Hozircha buyurtmalar yo\'q</div>'}
+function sett(){$('#main').innerHTML=`<div class="pg"><h2 style="margin:0 0 12px">⚙️ Sozlamalar</h2><div class="set"><b>👤 ${esc(TG_USER.first_name||"Mehmon")}</b><span>Telegram</span></div><div class="set"><b>☎️ Call-markaz</b><span>${TEL}</span></div></div>`}
+function render(){const m=S.tab==='menu';$('#tools').style.display=m?'':'none';({menu,cart,orders,set:sett})[S.tab]();
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===S.tab));
+ const n=totals().cnt;$('#bg').hidden=!n;$('#bg').textContent=n}
+$('#chips').innerHTML=CATS.map(([c,e,t],i)=>`<button data-c="${c}" class="${i?'':'on'}">${e} ${t}</button>`).join('');
+$('#chips').onclick=e=>{const c=e.target.closest('button')?.dataset.c;if(c){S.q='';$('#q').value='';menu();document.getElementById('s-'+c).scrollIntoView({behavior:'smooth'})}};
+$('#q').oninput=e=>{S.q=e.target.value;menu()};
+$('#seg').onclick=e=>{const m=e.target.dataset.m;if(m){S.m=m;document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));render()}};
+$('#nav').onclick=e=>{const t=e.target.closest('button')?.dataset.t;if(t){S.tab=t;render();scrollTo(0,0)}};
+let cur=null;
+function sheet(p){cur={p,si:p.s?(p.s.length>1?1:0):0,q:1};drawSheet();$('#ov').classList.add('on')}
+function drawSheet(){const{p,si,q}=cur,price=p.s?p.s[si][1]:p.p;
+ $('#sh').innerHTML=`${art(p)}<b style="font-size:19px">${p.n}</b><p style="color:var(--mu);margin:4px 0 0">${p.d}</p>${p.s?`<div class="sz">${p.s.map((x,i)=>`<button data-si="${i}" class="${i===si?'on':''}">${x[0]}<br>${fmt(x[1]).replace(" so'm","")}</button>`).join('')}</div>`:''}
+ <div class="act"><div class="q"><button data-q="-1">−</button><b>${q}</b><button data-q="1">+</button></div><button class="btn" data-add="1">Savatga · ${fmt(price*q)}</button></div>`}
+$('#sh').onclick=e=>{const b=e.target.closest('button');if(!b||b.id==='fs')return;
+ if(b.dataset.si)cur.si=+b.dataset.si;if(b.dataset.q)cur.q=Math.max(1,Math.min(20,cur.q+ +b.dataset.q));
+ if(b.dataset.add){const k=cur.p.id+'|'+cur.si;S.cart[k]=(S.cart[k]||0)+cur.q;save();$('#ov').classList.remove('on');render();return}drawSheet()};
+$('#ov').onclick=e=>{if(e.target.id==='ov')$('#ov').classList.remove('on')};
+$('#main').onclick=e=>{const c=e.target.closest('.card');if(c)return sheet(P.find(p=>p.id==c.dataset.p));
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.k){const k=b.dataset.k;S.cart[k]+=+b.dataset.d;if(S.cart[k]<1)delete S.cart[k];save();render()}
+ if(b.id==='go')checkout()};
+function checkout(){const T=totals();if(T.sub<40000)return;
+ $('#sh').innerHTML=`<h2 style="margin:0 0 10px">📝 Buyurtmani rasmiylashtirish</h2>
+ <label class="fl">Ismingiz</label><input id="fn">
+ <label class="fl">Telefon raqamingiz</label><input id="ft" type="tel" placeholder="+998 90 123 45 67">
+ ${S.m==='delivery'?'<label class="fl">Manzil</label><input id="fa" placeholder="Ko\'cha, uy, mo\'ljal">':''}
+ <label class="fl">Izoh (ixtiyoriy)</label><input id="fc">
+ <div id="fe" style="color:#ff8a80;min-height:22px;padding:6px 0"></div>
+ <button class="btn" id="fs">Tasdiqlash · ${fmt(T.tot)}</button>`;
+ $('#fn').value=TG_USER.first_name||'';$('#ov').classList.add('on');$('#fs').onclick=sendOrder}
+function sendOrder(){const T=totals(),g=i=>$(i).value.trim();
+ const d={rejim:S.m,ism:g('#fn'),tel:g('#ft'),manzil:S.m==='delivery'?g('#fa'):'',izoh:g('#fc'),
+  items:Object.keys(S.cart).map(k=>{const i=item(k);return{n:i.name.slice(0,40),q:S.cart[k],p:i.price}}),sub:T.sub,fee:T.fee,tot:T.tot};
+ const dg=d.tel.replace(/\D/g,'');let e='';
+ if(!d.ism)e='Ismingizni yozing.';else if(dg.length<9||dg.length>13)e="Telefon raqami noto'g'ri.";else if(S.m==='delivery'&&!d.manzil)e='Manzilni yozing.';
+ else if(JSON.stringify(d).length>3800)e="Buyurtma juda katta, ikkiga bo'ling.";
+ $('#fe').textContent=e;if(e)return;
+ const t=new Date();S.orders.unshift({st:'🕒 Yuborildi',t:T.tot,l:`${T.cnt} ta mahsulot · ${S.m==='delivery'?'Yetkazish':'Olib ketish'} · ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`});
+ try{localStorage.setItem('o',JSON.stringify(S.orders.slice(0,20)))}catch(x){}
+ S.cart={};save();
+ if(tgw)tgw.sendData(JSON.stringify(d));
+ else{$('#ov').classList.remove('on');alert('Telegramda ochilganda buyurtma yuboriladi:\n'+JSON.stringify(d,null,1));S.tab='orders';render()}}
+addEventListener('scroll',()=>{if(S.tab!=='menu'||S.q)return;let a=CATS[0][0];for(const [c] of CATS){const el=document.getElementById('s-'+c);if(el&&el.getBoundingClientRect().top<170)a=c}
+ document.querySelectorAll('#chips button').forEach(b=>{const on=b.dataset.c===a;if(on&&!b.classList.contains('on'))b.scrollIntoView({inline:'center',block:'nearest'});b.classList.toggle('on',on)})},{passive:true});
+try{window.Telegram?.WebApp?.ready();window.Telegram?.WebApp?.expand()}catch(e){}
+render();
+</script></body></html>
